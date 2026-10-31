@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f5fbf">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="کیفیت سطحی">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>ارزیابی کیفیت سطحی قلع‌اندود</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--tx:#1b1f24;--mu:#5f6b76;--bd:#dde1e6;--ok:#157347;--okb:#e3f4ea;--no:#b42318;--nob:#fde8e6;--ac:#1f5fbf}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171a;--card:#1e2327;--tx:#eceff2;--mu:#98a4af;--bd:#333b42;--ok:#5fd18f;--okb:#17301f;--no:#ff8b80;--nob:#3a1b18;--ac:#7db1ff}}
+:root[data-theme="dark"]{--bg:#14171a;--card:#1e2327;--tx:#eceff2;--mu:#98a4af;--bd:#333b42;--ok:#5fd18f;--okb:#17301f;--no:#ff8b80;--nob:#3a1b18;--ac:#7db1ff}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.7}
+.w{max-width:640px;margin:0 auto;padding:14px}
+h1{font-size:19px;margin:4px 0 10px}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.g button{font:inherit;padding:8px 4px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer;line-height:1.3}
+.g button b{font-size:22px;display:block}
+.g button small{font-size:12px}
+.g button.on{border-color:var(--ac)}
+.g button.p{background:var(--okb);color:var(--ok)}
+.g button.f{background:var(--nob);color:var(--no)}
+.bst{margin:10px 0;padding:8px 12px;border-radius:10px;background:var(--card);border:1px solid var(--bd);font-size:14px}
+.it{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin:8px 0;border-right-width:5px;border-right-color:var(--bd)}
+.it.ok{border-right-color:var(--ok)}.it.no{border-right-color:var(--no)}
+.hd{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.hd label{flex:1;display:flex;align-items:center;gap:8px;cursor:pointer}
+.hd input{width:20px;height:20px}
+.t{font-size:12px;padding:1px 9px;border-radius:99px;font-weight:400}
+.ok .t{background:var(--okb);color:var(--ok)}.no .t{background:var(--nob);color:var(--no)}
+.bd{display:none;margin-top:8px}
+.it.on .bd{display:block}
+.fl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0;font-size:13.5px}
+.fl input[type=number],.fl select{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);width:48%;min-width:0}
+.fl input[type=checkbox]{width:20px;height:20px}
+.rs{font-size:13px;color:var(--no);margin-top:6px}
+.rs.g2{color:var(--ok)}
+.rb{font:inherit;margin-top:12px;padding:8px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+.nt{font-size:12.5px;color:var(--mu);margin-top:12px}
+.tabs{display:flex;gap:8px;margin-bottom:10px}.tabs button{flex:1;font:inherit;padding:8px;border-radius:10px;border:2px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}.tabs button.on{border-color:var(--ac);color:var(--ac);font-weight:700}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>ارزیابی کیفیت سطحی قلع‌اندود</h1>
+<div class="tabs"><button id="tb0" class="on" onclick="tab(0)">عیوب سطحی</button><button id="tb1" onclick="tab(1)">موج و قایقی</button><button id="tb2" onclick="tab(2)">ناگونیایی</button></div>
+<div id="p0"><div class="g" id="gr"></div>
+<div class="bst" id="bs"></div>
+<div id="ls"></div></div>
+<div id="p1" style="display:none"><div class="bst" id="bs2"></div><div id="ls2"></div></div>
+<div id="p2" style="display:none"><div class="it on"><div class="hd">محاسبه ناگونیایی از روی اختلاف قطرها</div><div class="bd">
+<div class="fl"><span>طول ورق l (mm)</span><input type="number" step="any" inputmode="decimal" id="ngl" value="1010" oninput="ng('')"></div>
+<div class="fl"><span>عرض ورق b (mm)</span><input type="number" step="any" inputmode="decimal" id="ngb" value="650" oninput="ng('')"></div>
+<div class="fl"><span>ناگونیایی a/b</span><input type="number" step="any" inputmode="decimal" id="ngr" value="0.002" oninput="ng('r')"></div>
+<div class="fl"><span>اختلاف قطرها d1−d2 (mm) <span style="color:var(--no)">(مقدار ناگونیایی مجاز)</span></span><input type="number" step="any" inputmode="decimal" id="ngd" oninput="ng('d')"></div>
+<div id="ngo"></div></div></div>
+<div class="nt">طول و عرض را وارد کنید و سپس یکی از دو مقدار «ناگونیایی a/b» یا «اختلاف قطرها» را وارد کنید؛ دیگری خودکار محاسبه می‌شود. فرمول: a = b×(a/b)، d1 = √(l²+b²)، d2 = √((l−a)²+b²). برای محاسبه معکوس: a = l − √((d1−اختلاف)²−b²). با تغییر l یا b، اختلاف قطرها بر اساس مقدار a/b محاسبه می‌شود.</div></div>
+<button class="rb" onclick="rst()">پاک‌کردن همه</button>
+<div class="nt">برای هر عیبی که روی شیت وجود دارد، تیک «وجود دارد» را بزنید و مقادیر را وارد کنید. ارزیابی بر اساس جدول کیفیت سطحی OASPR-001 است. در کیفیت A هیچ عیب قابل‌رؤیتی مجاز نیست و فقط عیبی که با تغییر زاویه دید دیده شود (و لمس‌شدنی یا ناخن‌گیر نباشد) پذیرفته می‌شود. حد مجاز معیوب در کل کلاف: A برابر ۳٪، B برابر ۴٪ و C برابر ۵٪ طول کلاف. عیوبی که در فهرست آن کیفیت نیامده‌اند غیرقابل قبول در نظر گرفته می‌شوند. موارد B بسته به نیاز مشتری با هماهنگی فروش قابل تغییر است. عیوب شکلی (موج کناری/مرکزی کد ۷۶۳، موج ریز لبه کد ۷۶۱ و قایقی) مستقل از کیفیت A، B و C ارزیابی می‌شوند.</div>
+</div>
+<script>
+var V=['vis','نحوه دیده‌شدن','s',[['1','مستقیم و به راحتی قابل رؤیت'],['0','فقط با تغییر زاویه دید']],'1'];
+function sv(id,l,o,d){return[id,l,'s',o,d]}
+var D=[
+{n:'پونتوره',f:[['n','تعداد در شیت','n'],['t','قابل لمس است','c']],r:function(g,v){
+ if(g==1){if(v.t)return'قابل لمس است';var m=v.vis=='0'?6:4;if(v.n>m)return'بیش از '+m+' مورد در شیت';}
+ if(g==2){if(v.t)return'قابل لمس است';if(v.n>5)return'بیش از ۵ مورد در شیت'}}},
+{n:'اسکاتر (کناره)',f:[['d','فاصله از کناره (mm)','n']],r:function(g,v){if(g&&v.d>2)return'بیش از ۲ میلی‌متر از کناره'}},
+{n:'سایش',f:[['L','سایش طولی است','c']],r:function(g,v){
+ if(g==1&&v.vis=='1')return'به راحتی قابل رؤیت است';
+ if(g==2&&!v.L)return'فقط سایش طولی در C ذکر شده است'}},
+{n:'رگه چوبی',f:[sv('sev','شدت',[['1','بسیار خفیف'],['2','سبک'],['3','متوسط'],['4','شدید']],'1')],r:function(g,v){
+ if(g==1&&(v.sev>1||v.vis=='1'))return'فقط بسیار خفیف و با تغییر زاویه دید مجاز است';
+ if(g==2&&v.sev>3)return'فقط در حد سبک و متوسط مجاز است'}},
+{n:'لکه آب',f:[['p','پراکنده است','c',1],sv('sev','شدت',[['1','بسیار خفیف'],['2','بیش از خفیف']],'1')],r:function(g,v){
+ if(g&&!v.p)return'پراکنده نیست';if(g==1&&v.sev>1)return'بیش از بسیار خفیف است'}},
+{n:'خراش',f:[['t','ناخن‌گیر است','c']],r:function(g,v){
+ if(g&&v.t)return'ناخن‌گیر است';if(g==1&&v.vis=='1')return'در B فقط بسیار خفیف و با تغییر زاویه دید مجاز است'}},
+{n:'حفره',f:[['n','تعداد در شیت','n'],['f','بسیار ریز است','c']],r:function(g,v){
+ if(g==2)return'در C مجاز ذکر نشده';if(g==1){if(!v.f)return'بسیار ریز نیست';if(v.n>4)return'بیش از ۴ عدد در شیت'}}},
+{n:'سوختگی',f:[['n','تعداد در شیت','n'],['t','ناخن‌گیر / قابل لمس است','c'],['vl','بسیار خفیف است','c'],['ir','به آهن رسیده است','c']],r:function(g,v){
+ if(g==1){if(!v.vl)return'بسیار خفیف نیست';if(v.t)return'ناخن‌گیر است';if(v.n>3)return'بیش از ۳ عدد در شیت'}
+ if(g==2){if(v.ir)return'به آهن رسیده است';if(v.n>4)return'بیش از ۴ عدد در شیت'}}},
+{n:'کثیفی قطره‌ای',f:[['n','تعداد در شیت','n'],['d','حداکثر قطر (mm)','n']],r:function(g,v){
+ if(g==1){if(v.d>2)return'قطر بیش از ۲ میلی‌متر';if(v.n>3)return'بیش از ۳ عدد در شیت'}
+ if(g==2){if(v.d>4)return'قطر بیش از ۴ میلی‌متر';if(v.n>4)return'بیش از ۴ عدد در شیت'}}},
+{n:'زبری لبه / باوه کناری / خط برش',f:[['t','ناخن‌گیر است','c'],['sc','موجب خراش ورق بعدی می‌شود','c']],r:function(g,v){
+ if(g&&v.t)return'ناخن‌گیر است';if(g==2&&v.sc)return'موجب خراش ورق بعدی می‌شود'}},
+{n:'غبار سیاه قلع',f:[['sh','با کشیدن دست سطح براق می‌شود','c'],['mt','سطح ورق مات است','c']],r:function(g,v){
+ if(g==1&&v.sh)return'مقدار آن بیش از بسیار خفیف است';if(g==2&&v.mt)return'سطح ورق مات است'}},
+{n:'اثر قیچی و پایلر خطوط برش',f:[['t','با دست لمس می‌شود','c'],['sv','شدید است','c']],r:function(g,v){
+ if(g==2&&v.sv)return'شدید است؛ در C فقط در حد غیر شدید مجاز است';if(g==1&&v.t)return'با دست لمس می‌شود'}},
+{n:'خط افتادگی / رینگر رول / خط فشار',f:[['nc','تفاوت با زمینه کاملاً محسوس است','c'],['t','با دست لمس می‌شود','c'],['vl','بسیار خفیف است','c'],['sp','مصرف حلب / ظروف / ورق 0.26 mm','c']],r:function(g,v){
+ if(g&&v.sp)return'برای حلب/ظروف/ورق 0.26 mm مستثنی است';if(g==1&&v.nc)return'تفاوت با زمینه کاملاً محسوس است';if(g==2){if(v.t)return'با دست لمس می‌شود';if(!v.vl)return'بسیار خفیف نیست'}}},
+{n:'قایقی (طولی / عرضی / S شکل)',ind:1,f:[['d','مقدار قایقی (mm)','n'],['sh','قایقی S شکل (عدم تقارن در دو گوشه)','c']],r:function(g,v){
+ if(v.sh&&v.d>10)return'قایقی S شکل بیش از ۱۰ میلی‌متر';if(!v.sh&&v.d>20)return'بیش از ۲۰ میلی‌متر'}},
+{n:'موج کناری / مرکزی (کد ۷۶۳)',ind:1,f:[['h','ارتفاع موج (mm)','n'],['n','تعداد در شیت','n'],sv('u','مصرف',[['1','سر و کف'],['2','چاپ و لاک']],'1')],r:function(g,v){
+ var m=v.u=='2'?3:5;if(v.h>m)return'ارتفاع بیش از '+m+' میلی‌متر';if(v.n>3)return'بیش از ۳ عدد در شیت'}},
+{n:'موج ریز لبه (کد ۷۶۱)',ind:1,f:[['h','ارتفاع موج (mm)','n'],['n','تعداد در شیت','n']],r:function(g,v){
+ if(v.h>1)return'ارتفاع بیش از ۱ میلی‌متر';if(v.n>6)return'بیش از ۶ عدد در شیت'}},
+{n:'غبار پسیو',f:[['l','خفیف است','c'],['vo','برای مصرف روغن نباتی است','c']],r:function(g,v){
+ if(g==1)return'در B مجاز ذکر نشده';if(g==2){if(!v.l)return'خفیف نیست';if(v.vo)return'برای مصرف روغن نباتی مجاز نیست'}}}
+];
+var cur=0,GN=['A','B','C'];
+function ev(i,g){var v=val(i),x=D[i];
+ if(x.ind)return x.r(g,v)||null;
+ if(g==0){if(v.vis=='1')return'مستقیم قابل رؤیت است؛ در A فقط با تغییر زاویه دید مجاز است';
+  if(v.t)return'قابل لمس / ناخن‌گیر است';if(i==13&&v.d>=20)return'قابل قبول نیست';return null}
+ return x.r(g,v)||null}
+function val(i){var v={},c=document.getElementById('d'+i);
+ c.querySelectorAll('[data-k]').forEach(function(e){var k=e.dataset.k;v[k]=e.type=='checkbox'?e.checked:(e.type=='number'?(parseFloat(e.value)||0):e.value)});return v}
+function build(){var h='';
+ D.forEach(function(x,i){
+  var fs=(x.ind?[]:[V]).concat(x.f);
+  h+='<div class="it" id="d'+i+'"><div class="hd"><label><input type="checkbox" data-on="1" onchange="upd()">'+x.n+'</label><span class="t" id="t'+i+'"></span></div><div class="bd">';
+  fs.forEach(function(f){var id=f[0],t=f[2];
+   h+='<div class="fl"><span>'+f[1]+'</span>';
+   if(t=='n')h+='<input type="number" inputmode="decimal" min="0" data-k="'+id+'" oninput="upd()">';
+   else if(t=='c')h+='<input type="checkbox" data-k="'+id+'"'+(f[3]?' checked':'')+' onchange="upd()">';
+   else{h+='<select data-k="'+id+'" onchange="upd()">';f[3].forEach(function(o){h+='<option value="'+o[0]+'"'+(o[0]==f[4]?' selected':'')+'>'+o[1]+'</option>'});h+='</select>'}
+   h+='</div>'});
+  h+='<div class="rs" id="r'+i+'"></div></div></div>'});
+ document.getElementById('ls').innerHTML=h;D.forEach(function(x,i){if(x.ind)document.getElementById('ls2').appendChild(document.getElementById('d'+i))});
+ var b='';GN.forEach(function(k,j){b+='<button id="b'+j+'" onclick="cur='+j+';upd()"><b>'+k+'</b><small id="s'+j+'"></small></button>'});
+ document.getElementById('gr').innerHTML=b;upd()}
+function upd(){
+ var pass=[true,true,true],cnt=0,rows=[],c2=0,ok2=true;
+ D.forEach(function(x,i){var el=document.getElementById('d'+i),on=el.querySelector('[data-on]').checked;
+  el.classList.toggle('on',on);var t=document.getElementById('t'+i),r=document.getElementById('r'+i);
+  el.classList.remove('ok','no');t.textContent='';r.textContent='';
+  if(!on)return;if(x.ind){c2++;if(ev(i,0))ok2=false}else{cnt++;for(var g=0;g<3;g++)if(ev(i,g))pass[g]=false}
+  var m=ev(i,cur);el.classList.add(m?'no':'ok');t.textContent=m?'غیرقابل قبول':'قابل قبول';
+  r.textContent=m?m:'در حدود مجاز کیفیت '+GN[cur];r.className='rs'+(m?'':' g2')});
+ document.getElementById('bs2').textContent=!c2?'هنوز موج یا قایقی وارد نشده است. این موارد مستقل از کیفیت A، B و C ارزیابی می‌شوند.':(ok2?'همهٔ موارد واردشده در حدود مجاز است.':'حداقل یک مورد خارج از حدود مجاز است.');for(var g=0;g<3;g++){var b=document.getElementById('b'+g);b.className=(g==cur?'on ':'')+(cnt?(pass[g]?'p':'f'):'');
+  document.getElementById('s'+g).textContent=cnt?(pass[g]?'قابل قبول':'غیرقابل قبول'):'—'}
+ var best=pass.indexOf(true);
+ document.getElementById('bs').textContent=!cnt?'هنوز عیبی وارد نشده است.':(best<0?'با عیوب واردشده، شیت در هیچ‌یک از کیفیت‌های A، B و C قابل قبول نیست؛ طبق تبصرهٔ C، محصول انتخاب دوم شده و از سفارش جدا می‌شود.':'بهترین کیفیت قابل قبول با عیوب واردشده: '+GN[best])}
+function tab(k){for(var j=0;j<3;j++){document.getElementById('p'+j).style.display=j==k?'':'none';document.getElementById('tb'+j).className=j==k?'on':''}}
+function ng(s){var q=function(i){return document.getElementById(i)},l=parseFloat(q('ngl').value),b=parseFloat(q('ngb').value),r=parseFloat(q('ngr').value),df=parseFloat(q('ngd').value),d1=Math.sqrt(l*l+b*b),a;
+ if(s=='d'){var t=d1-df;a=l-Math.sqrt(t*t-b*b);r=a/b;if(isFinite(r))q('ngr').value=+r.toFixed(6)}
+ else{a=b*r;df=d1-Math.sqrt((l-a)*(l-a)+b*b);q('ngd').value=isFinite(df)?+df.toFixed(4):''}
+ var d2=d1-df,ang=Math.atan(r)*180/Math.PI,f=function(x,n){return isFinite(x)?x.toFixed(n):'—'},row=function(k,v){return '<div class="fl"><span>'+k+'</span><b dir="ltr">'+v+'</b></div>'};
+ q('ngo').innerHTML=row('انحراف a (mm)',f(a,3))+row('زاویه انحراف (°)',f(ang,4))+row('قطر d1 (mm)',f(d1,3))+row('قطر d2 (mm)',f(d2,3))+row('اختلاف d1−d2 (mm) <span style="color:var(--no)">(مقدار ناگونیایی مجاز)</span>',f(df,3))+row('ناگونیایی a/b',f(r,6))}
+function rst(){D.forEach(function(x,i){var el=document.getElementById('d'+i);el.querySelectorAll('input[type=number]').forEach(function(e){e.value=''});el.querySelector('[data-on]').checked=false});upd()}
+build();ng('');
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+</script>
+</body>
+</html>
